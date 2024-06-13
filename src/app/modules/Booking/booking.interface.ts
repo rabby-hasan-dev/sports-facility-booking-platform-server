@@ -1,4 +1,5 @@
 import { Types } from "mongoose";
+import { IsBooked_Status } from "./booking.constant";
 
 
 
@@ -9,5 +10,5 @@ export type TBooking = {
     user?: Types.ObjectId;
     payableAmount?: number;
     facility?: Types.ObjectId;
-    isBooked?: "confirmed" | "unconfirmed" | "canceled";
+    isBooked?: keyof typeof IsBooked_Status;
 }

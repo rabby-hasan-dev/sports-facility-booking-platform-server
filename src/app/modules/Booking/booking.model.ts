@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import { IsBooked_Status } from "./booking.constant";
 import { TBooking } from "./booking.interface";
 
 
@@ -35,11 +36,12 @@ const BookingSchema = new Schema<TBooking>({
     isBooked: {
         type: String,
         required: true,
-        enum: ["confirmed", "unconfirmed", "canceled"],
+        enum: Object.keys(IsBooked_Status),
+        default: IsBooked_Status.confirmed
 
     }
 },
 )
 
 
-export const Booking = model<TBooking>('booking', BookingSchema);
+export const Booking = model<TBooking>('Booking', BookingSchema);
