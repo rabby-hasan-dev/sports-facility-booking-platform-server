@@ -20,7 +20,7 @@ app.use('/api', router)
 
 // Default Home Routes
 app.get('/', (req: Request, res: Response) => {
-  res.send('sports-facility-booking-platform-server!');
+  res.send('SPORTS FACILITY BOOKING PLATFORM SERVER!');
 });
 
 
