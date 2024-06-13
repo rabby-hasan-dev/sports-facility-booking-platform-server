@@ -1,9 +1,13 @@
+import { Types } from "mongoose";
+
 
 
 export type TBooking = {
     date: string;
-    user: string;
-    payableAmount: number;
-    facility: string;
-    isBooked: boolean;
+    startTime: string,
+    endTime: string,
+    user?: Types.ObjectId;
+    payableAmount?: number;
+    facility?: Types.ObjectId;
+    isBooked?: "confirmed" | "unconfirmed" | "canceled";
 }
