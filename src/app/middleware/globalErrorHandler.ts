@@ -4,7 +4,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
   //  setting default value 
   let statusCode = 500;
-  let message = 'something went wrong';
+  let message = err.message || 'something went wrong';
 
 
   //  ultimate return
