@@ -1,5 +1,6 @@
 
 import httpStatus from "http-status";
+import config from "../../config";
 import catchAsync from "../../utilis/catchAsync";
 import sendResponse from "../../utilis/sendResponse";
 import { AuthServices } from "./Auth.service";
@@ -21,9 +22,15 @@ const signup = catchAsync(async (req, res) => {
 });
 
 // USER LOGIN
-const login = catchAsync(async (req, res) => {
-    const data = await AuthServices.loginUserDataIntoDB(req.body);
 
+const login = catchAsync(async (req, res) => {
+    const { accessToken, refreshToken } = await AuthServices.loginUserDataIntoDB(req.body);
+
+
+    res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        secure: config.node_env === "production",
+    });
 
 
     sendResponse(res, {
@@ -31,7 +38,7 @@ const login = catchAsync(async (req, res) => {
         succcess: true,
         message: "User logged in successfully!",
         data: {
-            data
+            accessToken
         },
     });
 

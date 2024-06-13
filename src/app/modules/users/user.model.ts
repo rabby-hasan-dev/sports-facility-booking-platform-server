@@ -19,7 +19,7 @@ const UserSchema = new Schema<TUser>({
     password: {
         type: String,
         required: true,
-        select: 0
+        select: false,
     },
     phone: {
         type: String,

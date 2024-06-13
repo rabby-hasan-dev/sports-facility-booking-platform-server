@@ -1,7 +1,10 @@
+import jwt from 'jsonwebtoken';
+import config from '../../config';
 import { USER_Role } from "../users/user.constant";
 import { TUser } from "../users/user.interface";
 import { User } from "../users/user.model";
 import { TLoginUser } from "./auth.interface";
+import { isPasswordMatched } from "./auth.utils";
 
 //  CHECK EXISTS USER AND SAVE NEW USER DATA INTO DATABASE
 const signupDataIntoDB = async (payload: TUser): Promise<any> => {
@@ -31,7 +34,36 @@ const loginUserDataIntoDB = async (payload: TLoginUser) => {
         throw new Error("User not found");
     }
 
+    const passwordMatch = await isPasswordMatched(
+        payload.password,
+        user.password
+    );
 
+    if (!passwordMatch) {
+        throw new Error("Password not matched");
+    }
+
+    const jwtPayload = {
+        email: user.email,
+        role: user.role,
+    };
+
+    const accessToken = jwt.sign(jwtPayload, config.jwt_access_secret as string, {
+        expiresIn: config.jwt_access_expires_in,
+    });
+
+    const refreshToken = jwt.sign(
+        jwtPayload,
+        config.jwt_refresh_secret as string,
+        {
+            expiresIn: config.jwt_refresh_expires_in,
+        }
+    );
+
+    return {
+        accessToken,
+        refreshToken,
+    };
 
 
 
