@@ -9,8 +9,6 @@ import catchAsync from "../utilis/catchAsync";
 
 
 
-
-
 export const auth = (...requiredRoles: (keyof typeof USER_Role)[]) => {
     return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
         const accessToken = req.headers.authorization;
@@ -21,7 +19,7 @@ export const auth = (...requiredRoles: (keyof typeof USER_Role)[]) => {
 
         const verfiedToken = jwt.verify(
             accessToken as string,
-            config.jwt_access_secret as string
+            config.jwt_access_secret as string,
         );
 
 
@@ -39,7 +37,7 @@ export const auth = (...requiredRoles: (keyof typeof USER_Role)[]) => {
             throw new AppError(httpStatus.UNAUTHORIZED, "You have no access to this route");
         }
 
-
+        req.user = verfiedToken as JwtPayload;
         next();
 
 

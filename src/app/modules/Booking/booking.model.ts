@@ -43,11 +43,7 @@ const BookingSchema = new Schema<TBooking>({
 },
 )
 
-// BookingSchema.pre('save', function (next) {
 
-
-//     next()
-// })
 
 
 export const Booking = model<TBooking>('Booking', BookingSchema);

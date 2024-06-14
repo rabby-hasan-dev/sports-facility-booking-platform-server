@@ -1,4 +1,6 @@
+import { JwtPayload } from "jsonwebtoken";
 import { Facility } from "../Facility/facility.model";
+import { User } from "../users/user.model";
 import { IsBooked_Status } from "./booking.constant";
 import { TBooking } from "./booking.interface";
 import { Booking } from "./booking.model";
@@ -9,7 +11,16 @@ import { calculatePayableAmount } from "./utils";
 
 const getAllBookingsIntoDB = async () => {
 
-    const result = await Booking.find({}).populate('user').populate('facility');
+    const result = await Booking.find({ isBooked: { $eq: IsBooked_Status.confirmed } }).populate('user').populate('facility');
+    return result;
+
+
+}
+// RETRIVE  BOOKINGS FOR SPECIFIC USER FROM DATABASE
+
+const getUserBookingsIntoDB = async (user: JwtPayload) => {
+    const userExists = await User.findOne({ email: user?.email });
+    const result = await Booking.find({ user: userExists?._id, isBooked: { $eq: IsBooked_Status.confirmed } }).populate('user').populate('facility');
 
     return result;
 
@@ -18,26 +29,24 @@ const getAllBookingsIntoDB = async () => {
 
 // CREATE BOOKINGS FROM DATABASE
 
-const createdBookingIntoDB = async (payload: TBooking) => {
+const createdBookingIntoDB = async (user: JwtPayload, payload: TBooking) => {
 
-    let data: any = { ...payload, }
+    let booking: any = { ...payload, }
 
-    
+    const userExists = await User.findOne({ email: user?.email });
+    const findFacility = await Facility.findById(payload?.facility);
 
- const findFacility = await Facility.findById(payload?.facility);
-
-    if (findFacility) {
-        const pricePerHour = Number(findFacility?.pricePerHour);
-
+    if (userExists && findFacility) {
+        // User Id set
+        booking.user = userExists._id
         // PAYBALE AMOUNT HANDLER
-        data.payableAmount = calculatePayableAmount(pricePerHour, payload);
+        const pricePerHour = Number(findFacility?.pricePerHour);
+        booking.payableAmount = calculatePayableAmount(pricePerHour, payload);
+    } else {
+        throw new Error("Sorry! User or Payable amount missing!")
     }
 
-
-
-
-    const result = await Booking.create(data);
-
+    const result = await Booking.create(booking);
     return result;
 
 
@@ -59,6 +68,7 @@ export const bookingServices = {
 
     createdBookingIntoDB,
     getAllBookingsIntoDB,
-    cancelBookingIntoDB
+    cancelBookingIntoDB,
+    getUserBookingsIntoDB
 
 }

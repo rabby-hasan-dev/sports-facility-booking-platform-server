@@ -18,13 +18,27 @@ const getAllBookings = catchAsync(async (req, res, next) => {
 
 })
 
+//   RETRIVE ALL BOOKING For user
+const getUserBookings = catchAsync(async (req, res, next) => {
+    const user = req.user;
+    const result = await bookingServices.getUserBookingsIntoDB(user);
+
+    sendResponse(res, {
+        statusCode: httpStatus.OK,
+        succcess: true,
+        message: 'Booking retrieved successfully',
+        data: result,
+    });
+
+})
+
 
 
 const createBookings = catchAsync(async (req, res, next) => {
     const payload = req.body;
-
+    const user = req.user;
     // const valdateData = BookingSchemaValidation.parse(payload);
-    const result = await bookingServices.createdBookingIntoDB(payload);
+    const result = await bookingServices.createdBookingIntoDB(user, payload);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -55,5 +69,6 @@ const cancelBookings = catchAsync(async (req, res, next) => {
 export const bookingController = {
     createBookings,
     getAllBookings,
-    cancelBookings
+    cancelBookings,
+    getUserBookings
 }

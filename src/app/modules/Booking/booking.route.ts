@@ -6,8 +6,9 @@ import { bookingController } from './booking.controller';
 const router = express.Router();
 
 router.post('/', auth(USER_Role.user), bookingController.createBookings)
-router.get('/', bookingController.getAllBookings)
-router.delete('/:bookingId', bookingController.cancelBookings)
+router.get('/', auth(USER_Role.admin), bookingController.getAllBookings)
+router.get('/user', auth(USER_Role.user), bookingController.getUserBookings)
+router.delete('/:bookingId', auth(USER_Role.user), bookingController.cancelBookings)
 
 
 export const bookingRouter = router;
