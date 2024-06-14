@@ -13,7 +13,7 @@ const bookingChecker = catchAsync(async (req, res, next) => {
     sendResponse(res, {
         statusCode: httpStatus.OK,
         succcess: true,
-        message: 'Booking retrieved successfully',
+        message: "Availability checked successfully",
         data: result,
     });
 
