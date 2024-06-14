@@ -16,7 +16,7 @@ export const auth = (...requiredRoles: (keyof typeof USER_Role)[]) => {
         const accessToken = req.headers.authorization;
 
         if (!accessToken) {
-            throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized to access this route");
+            throw new AppError(httpStatus.UNAUTHORIZED, "You have no access to this route");
         }
 
         const verfiedToken = jwt.verify(
@@ -24,8 +24,9 @@ export const auth = (...requiredRoles: (keyof typeof USER_Role)[]) => {
             config.jwt_access_secret as string
         );
 
+
         const { role, email } = verfiedToken as JwtPayload;
-        console.log(role, email);
+
 
         const user = await User.findOne({ email });
 
@@ -35,9 +36,12 @@ export const auth = (...requiredRoles: (keyof typeof USER_Role)[]) => {
 
 
         if (!requiredRoles.includes(role)) {
-            throw new AppError(httpStatus.UNAUTHORIZED, "You are not authorized to access this route");
+            throw new AppError(httpStatus.UNAUTHORIZED, "You have no access to this route");
         }
 
+
         next();
+
+
     });
 };

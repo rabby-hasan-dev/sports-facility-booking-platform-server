@@ -5,13 +5,10 @@ import { facilityController } from './facility.controller';
 
 const router = express.Router();
 
-
 router.get('/', facilityController.getFacility)
 router.post('/', auth(USER_Role.admin), facilityController.createFacility)
-router.put('/:id', facilityController.updateFacility)
-router.delete('/:id', facilityController.deleteFacility)
-
-
+router.put('/:id', auth(USER_Role.admin), facilityController.updateFacility)
+router.delete('/:id',auth(USER_Role.admin), facilityController.deleteFacility)
 
 
 export const facilityRouter = router;

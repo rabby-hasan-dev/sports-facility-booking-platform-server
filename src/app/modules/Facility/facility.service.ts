@@ -5,8 +5,7 @@ import { Facility } from "./facility.model";
 
 const getFacilityIntoDB = async () => {
 
-    const result = await Facility.find({})
-
+    const result = await Facility.find({ isDeleted: { $eq: false } })
     return result;
 
 

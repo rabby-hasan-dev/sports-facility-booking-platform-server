@@ -22,12 +22,14 @@ const createdBookingIntoDB = async (payload: TBooking) => {
 
     let data: any = { ...payload, }
 
-    const findFacility = await Facility.findById(payload?.facility);
+    
+
+ const findFacility = await Facility.findById(payload?.facility);
 
     if (findFacility) {
         const pricePerHour = Number(findFacility?.pricePerHour);
 
-        // PAYBALE AMOUNT
+        // PAYBALE AMOUNT HANDLER
         data.payableAmount = calculatePayableAmount(pricePerHour, payload);
     }
 

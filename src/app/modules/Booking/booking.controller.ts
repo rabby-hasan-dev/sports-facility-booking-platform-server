@@ -22,7 +22,7 @@ const getAllBookings = catchAsync(async (req, res, next) => {
 
 const createBookings = catchAsync(async (req, res, next) => {
     const payload = req.body;
-    // console.log(payload);
+
     // const valdateData = BookingSchemaValidation.parse(payload);
     const result = await bookingServices.createdBookingIntoDB(payload);
 
