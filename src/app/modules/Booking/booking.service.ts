@@ -1,5 +1,7 @@
+import { Facility } from "../Facility/facility.model";
 import { TBooking } from "./booking.interface";
 import { Booking } from "./booking.model";
+import { calculatePayableAmount } from "./utils";
 
 
 // RETRIVE ALL BOOKINGS FROM DATABASE
@@ -19,7 +21,16 @@ const createdBookingIntoDB = async (payload: TBooking) => {
 
     let data: any = { ...payload, }
 
-    data.payableAmount = 10;
+    const findFacility = await Facility.findById(payload?.facility);
+
+    if (findFacility) {
+        const pricePerHour = Number(findFacility?.pricePerHour);
+
+        // PAYBALE AMOUNT
+        data.payableAmount = calculatePayableAmount(pricePerHour, payload);
+    }
+
+
 
 
     const result = await Booking.create(data);

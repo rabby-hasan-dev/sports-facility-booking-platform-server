@@ -3,7 +3,8 @@ import httpStatus from "http-status";
 import config from "../../config";
 import catchAsync from "../../utilis/catchAsync";
 import sendResponse from "../../utilis/sendResponse";
-import { AuthServices } from "./Auth.service";
+import { AuthServices } from "./auth.service";
+
 
 // USER SIGNUP
 const signup = catchAsync(async (req, res) => {
