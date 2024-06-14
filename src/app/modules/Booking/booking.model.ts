@@ -22,7 +22,7 @@ const BookingSchema = new Schema<TBooking>({
 
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'user'
+        ref: 'User'
     },
     payableAmount: {
         type: Number,
@@ -30,7 +30,7 @@ const BookingSchema = new Schema<TBooking>({
     },
     facility: {
         type: Schema.Types.ObjectId,
-        ref: 'facility',
+        ref: 'Facility',
         required: true
     },
     isBooked: {

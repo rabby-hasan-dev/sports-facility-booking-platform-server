@@ -28,9 +28,11 @@ const updatedFacilityIntoDB = async (payload: Partial<TFacility>, id: string) =>
 
 }
 
+//   soft delete of facility
+
 const deleteFacilityIntoDB = async (id: string) => {
 
-    const result = await Facility.findByIdAndDelete(id);
+    const result = await Facility.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
     return result;
 
 

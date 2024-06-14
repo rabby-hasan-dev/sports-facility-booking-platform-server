@@ -35,10 +35,10 @@ const createBookings = catchAsync(async (req, res, next) => {
 
 })
 
-const deleteBookings = catchAsync(async (req, res, next) => {
-    const {bookingId }= req.params
+const cancelBookings = catchAsync(async (req, res, next) => {
+    const { bookingId } = req.params
 
-    const result = await bookingServices.deleteBookingIntoDB(bookingId)
+    const result = await bookingServices.cancelBookingIntoDB(bookingId)
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -55,5 +55,5 @@ const deleteBookings = catchAsync(async (req, res, next) => {
 export const bookingController = {
     createBookings,
     getAllBookings,
-    deleteBookings
+    cancelBookings
 }
