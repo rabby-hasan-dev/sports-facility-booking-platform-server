@@ -24,6 +24,8 @@ const FacilitySchema = new Schema<TFacility>({
         type: Boolean,
         default: false
     }
+}, {
+    versionKey: false
 })
 
 

@@ -90,3 +90,5 @@ export const bookingController = {
     cancelBookings,
     getUserBookings
 }
+
+

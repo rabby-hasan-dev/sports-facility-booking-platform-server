@@ -40,7 +40,9 @@ const BookingSchema = new Schema<TBooking>({
         default: IsBooked_Status.confirmed
 
     }
-},
+}, {
+    versionKey: false
+}
 )
 
 

@@ -4,7 +4,6 @@ import { findAvailableTime } from "./utils";
 const bookingCheckFromDB = async (query: Record<string, unknown>) => {
 
 
-
     // Current Date iso From
     const date = new Date().toISOString();
     const currentDate = date.substring(0, date.indexOf('T'));

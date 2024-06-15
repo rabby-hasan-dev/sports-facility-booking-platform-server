@@ -51,6 +51,10 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   } else if (err instanceof AppError) {
     statusCode = err?.statusCode;
     message = err?.message
+    errorMessages = [{
+      path: '',
+      message: err?.message
+    }];
 
   } else if (err instanceof Error) {
     message = err?.message
@@ -62,28 +66,29 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
 
 
 
+  // UnAuthorized Error Response 
 
+  if (errorMessages[0]?.message === "You have no access to this route") {
+    return res.status(statusCode).json({
+      succes: false,
+      statusCode,
+      message,
+
+
+    })
+  }
 
   //  ultimate return
 
-  if (errorMessages?.[1]) {
-    return res.status(statusCode).json({
-      succes: false,
-      message,
-      errorMessages,
-      stack: config.node_env === 'development' ? err?.stack : null,
-      err
-
-    });
-  }
-
   return res.status(statusCode).json({
     succes: false,
-    statusCode,
     message,
-    err
-
+    errorMessages,
+    stack: config.node_env === 'development' ? err?.stack : null,
+   
   })
+
+
 
 };
 

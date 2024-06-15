@@ -52,7 +52,7 @@ const updateFacility = catchAsync(async (req, res, next) => {
         sendResponse(res, {
             statusCode: httpStatus.NOT_FOUND,
             succcess: false,
-            message: ' No Id Data Found In Database',
+            message: " Can't find this Id in database ",
             data: result,
         });
     }

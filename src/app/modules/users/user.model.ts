@@ -34,6 +34,8 @@ const UserSchema = new Schema<TUser>({
         type: String,
         required: true
     }
+}, {
+    versionKey: false
 })
 
 
