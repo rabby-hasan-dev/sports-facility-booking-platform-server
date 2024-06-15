@@ -2,12 +2,21 @@ import httpStatus from "http-status";
 import catchAsync from "../../utilis/catchAsync";
 import sendResponse from "../../utilis/sendResponse";
 import { facilityServices } from "./facility.service";
-import { FacilitySchemaValidation, updateFacilitySchemaValidation } from "./facility.zodValidation";
 
 
 const getFacility = catchAsync(async (req, res, next) => {
 
     const result = await facilityServices.getFacilityIntoDB();
+
+
+    if (!result || result.length === 0) {
+        sendResponse(res, {
+            statusCode: httpStatus.NOT_FOUND,
+            succcess: false,
+            message: 'No Data Found',
+            data: result,
+        });
+    }
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -19,8 +28,9 @@ const getFacility = catchAsync(async (req, res, next) => {
 })
 const createFacility = catchAsync(async (req, res, next) => {
     const payload = req.body;
-    const valdateData = FacilitySchemaValidation.parse(payload);
-    const result = await facilityServices.createdFacilityIntoDB(valdateData);
+
+    const result = await facilityServices.createdFacilityIntoDB(payload);
+
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -35,9 +45,9 @@ const createFacility = catchAsync(async (req, res, next) => {
 const updateFacility = catchAsync(async (req, res, next) => {
     const payload = req.body;
     const facilityId = req.params?.id;
-    const valdateData = updateFacilitySchemaValidation.parse(payload);
 
-    const result = await facilityServices.updatedFacilityIntoDB(valdateData, facilityId);
+
+    const result = await facilityServices.updatedFacilityIntoDB(payload, facilityId);
 
     sendResponse(res, {
         statusCode: httpStatus.OK,

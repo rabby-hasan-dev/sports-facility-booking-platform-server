@@ -9,6 +9,15 @@ const getAllBookings = catchAsync(async (req, res, next) => {
 
     const result = await bookingServices.getAllBookingsIntoDB();
 
+    if (!result || result.length === 0) {
+        sendResponse(res, {
+            statusCode: httpStatus.NOT_FOUND,
+            succcess: false,
+            message: 'No Data Found',
+            data: result,
+        });
+    }
+
     sendResponse(res, {
         statusCode: httpStatus.OK,
         succcess: true,
@@ -22,6 +31,16 @@ const getAllBookings = catchAsync(async (req, res, next) => {
 const getUserBookings = catchAsync(async (req, res, next) => {
     const user = req.user;
     const result = await bookingServices.getUserBookingsIntoDB(user);
+
+
+    if (!result || result.length === 0) {
+        sendResponse(res, {
+            statusCode: httpStatus.NOT_FOUND,
+            succcess: false,
+            message: 'No Data Found',
+            data: result,
+        });
+    }
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -37,7 +56,6 @@ const getUserBookings = catchAsync(async (req, res, next) => {
 const createBookings = catchAsync(async (req, res, next) => {
     const payload = req.body;
     const user = req.user;
-    // const valdateData = BookingSchemaValidation.parse(payload);
     const result = await bookingServices.createdBookingIntoDB(user, payload);
 
     sendResponse(res, {

@@ -36,6 +36,8 @@ const createdBookingIntoDB = async (user: JwtPayload, payload: TBooking) => {
     const userExists = await User.findOne({ email: user?.email });
     const findFacility = await Facility.findById(payload?.facility);
 
+    console.log("user", userExists, 'facility', findFacility);
+
     if (userExists && findFacility) {
         // User Id set
         booking.user = userExists._id

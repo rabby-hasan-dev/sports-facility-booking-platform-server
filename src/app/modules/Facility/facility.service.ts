@@ -9,6 +9,7 @@ const getFacilityIntoDB = async () => {
     return result;
 
 
+
 }
 const createdFacilityIntoDB = async (payload: TFacility) => {
 

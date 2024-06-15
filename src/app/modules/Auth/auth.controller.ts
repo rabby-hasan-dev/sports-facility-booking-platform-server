@@ -9,6 +9,7 @@ import { AuthServices } from "./auth.service";
 // USER SIGNUP
 const signup = catchAsync(async (req, res) => {
 
+
     const result = await AuthServices.signupDataIntoDB(req.body);
 
 
