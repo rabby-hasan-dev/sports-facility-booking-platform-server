@@ -46,8 +46,16 @@ const updateFacility = catchAsync(async (req, res, next) => {
     const payload = req.body;
     const facilityId = req.params?.id;
 
-
     const result = await facilityServices.updatedFacilityIntoDB(payload, facilityId);
+
+    if (!result || result == null) {
+        sendResponse(res, {
+            statusCode: httpStatus.NOT_FOUND,
+            succcess: false,
+            message: ' No Id Data Found In Database',
+            data: result,
+        });
+    }
 
     sendResponse(res, {
         statusCode: httpStatus.OK,
@@ -63,6 +71,9 @@ const deleteFacility = catchAsync(async (req, res, next) => {
     const facilityId = req.params?.id;
 
     const result = await facilityServices.deleteFacilityIntoDB(facilityId);
+
+
+
 
     sendResponse(res, {
         statusCode: httpStatus.OK,

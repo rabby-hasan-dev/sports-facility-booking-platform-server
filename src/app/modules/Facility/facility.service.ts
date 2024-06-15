@@ -23,6 +23,8 @@ const createdFacilityIntoDB = async (payload: TFacility) => {
 const updatedFacilityIntoDB = async (payload: Partial<TFacility>, id: string) => {
 
     const result = await Facility.findByIdAndUpdate(id, payload, { new: true });
+
+
     return result;
 
 
