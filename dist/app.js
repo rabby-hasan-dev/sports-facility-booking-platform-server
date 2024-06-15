@@ -17,7 +17,7 @@ app.use((0, cors_1.default)());
 app.use('/api', routes_1.default);
 // Default Home Routes
 app.get('/', (req, res) => {
-    res.send('sports-facility-booking-platform-server!');
+    res.send('SPORTS FACILITY BOOKING PLATFORM SERVER!');
 });
 //  GLOBAL ERROR HANDLER
 app.use(globalErrorHandler_1.default);

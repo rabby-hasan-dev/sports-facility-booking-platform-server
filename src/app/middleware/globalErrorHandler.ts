@@ -9,36 +9,32 @@ import handleZodError from '../error/handleZodError';
 import { TErrorMessages } from '../interface/error';
 
 const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
-
-
-  //  setting default value 
+  //  setting default value
 
   let statusCode = 500;
   let message = 'something went wrong';
 
   //  error sources
-  let errorMessages: TErrorMessages = [{
-    path: '',
-    message: 'something went wrong',
-
-  }]
-
+  let errorMessages: TErrorMessages = [
+    {
+      path: '',
+      message: 'something went wrong',
+    },
+  ];
 
   //   Zod Error Checker
 
   if (err instanceof ZodError) {
-
     const simplifiedError = handleZodError(err);
     statusCode = simplifiedError?.statusCode;
     message = simplifiedError?.message;
     errorMessages = simplifiedError?.errorMessages;
-
-  } else if (err?.name === "ValidationError") {
+  } else if (err?.name === 'ValidationError') {
     const simplifiedError = handleValidationError(err);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
     errorMessages = simplifiedError.errorMessages;
-  } else if (err?.name === "CastError") {
+  } else if (err?.name === 'CastError') {
     const simplifiedError = handleCastError(err);
     statusCode = simplifiedError.statusCode;
     message = simplifiedError.message;
@@ -50,32 +46,31 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     errorMessages = simplifiedError.errorMessages;
   } else if (err instanceof AppError) {
     statusCode = err?.statusCode;
-    message = err?.message
-    errorMessages = [{
-      path: '',
-      message: err?.message
-    }];
-
+    message = err?.message;
+    errorMessages = [
+      {
+        path: '',
+        message: err?.message,
+      },
+    ];
   } else if (err instanceof Error) {
-    message = err?.message
-    errorMessages = [{
-      path: '',
-      message: err?.message
-    }];
+    message = err?.message;
+    errorMessages = [
+      {
+        path: '',
+        message: err?.message,
+      },
+    ];
   }
 
+  // UnAuthorized Error Response
 
-
-  // UnAuthorized Error Response 
-
-  if (errorMessages[0]?.message === "You have no access to this route") {
+  if (errorMessages[0]?.message === 'You have no access to this route') {
     return res.status(statusCode).json({
       succes: false,
       statusCode,
       message,
-
-
-    })
+    });
   }
 
   //  ultimate return
@@ -85,11 +80,7 @@ const globalErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
     message,
     errorMessages,
     stack: config.node_env === 'development' ? err?.stack : null,
-   
-  })
-
-
-
+  });
 };
 
 export default globalErrorHandler;

@@ -3,7 +3,6 @@ import { bookingCheckerController } from './bookingChecker.controller';
 
 const router = express.Router();
 
-router.get('/', bookingCheckerController.bookingChecker)
-
+router.get('/', bookingCheckerController.bookingChecker);
 
 export const bookingCheckerRouter = router;

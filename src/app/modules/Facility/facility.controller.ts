@@ -1,92 +1,82 @@
-import httpStatus from "http-status";
-import catchAsync from "../../utilis/catchAsync";
-import sendResponse from "../../utilis/sendResponse";
-import { facilityServices } from "./facility.service";
-
+import httpStatus from 'http-status';
+import catchAsync from '../../utilis/catchAsync';
+import sendResponse from '../../utilis/sendResponse';
+import { facilityServices } from './facility.service';
 
 const getFacility = catchAsync(async (req, res, next) => {
+  const result = await facilityServices.getFacilityIntoDB();
 
-    const result = await facilityServices.getFacilityIntoDB();
-
-
-    if (!result || result.length === 0) {
-        sendResponse(res, {
-            statusCode: httpStatus.NOT_FOUND,
-            succcess: false,
-            message: 'No Data Found',
-            data: result,
-        });
-    }
-
+  if (!result || result.length === 0) {
     sendResponse(res, {
-        statusCode: httpStatus.OK,
-        succcess: true,
-        message: 'Facilities retrieved successfully',
-        data: result,
+      statusCode: httpStatus.NOT_FOUND,
+      succcess: false,
+      message: 'No Data Found',
+      data: result,
     });
+  }
 
-})
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    succcess: true,
+    message: 'Facilities retrieved successfully',
+    data: result,
+  });
+});
 const createFacility = catchAsync(async (req, res, next) => {
-    const payload = req.body;
+  const payload = req.body;
 
-    const result = await facilityServices.createdFacilityIntoDB(payload);
+  const result = await facilityServices.createdFacilityIntoDB(payload);
 
-
-    sendResponse(res, {
-        statusCode: httpStatus.OK,
-        succcess: true,
-        message: 'Facility added successfully',
-        data: result,
-    });
-
-})
-
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    succcess: true,
+    message: 'Facility added successfully',
+    data: result,
+  });
+});
 
 const updateFacility = catchAsync(async (req, res, next) => {
-    const payload = req.body;
-    const facilityId = req.params?.id;
+  const payload = req.body;
+  const facilityId = req.params?.id;
 
-    const result = await facilityServices.updatedFacilityIntoDB(payload, facilityId);
+  const result = await facilityServices.updatedFacilityIntoDB(
+    payload,
+    facilityId,
+  );
 
-    if (!result || result == null) {
-        sendResponse(res, {
-            statusCode: httpStatus.NOT_FOUND,
-            succcess: false,
-            message: " Can't find this Id in database ",
-            data: result,
-        });
-    }
-
+  if (!result || result == null) {
     sendResponse(res, {
-        statusCode: httpStatus.OK,
-        succcess: true,
-        message: 'Facility Updated successfully',
-        data: result,
+      statusCode: httpStatus.NOT_FOUND,
+      succcess: false,
+      message: " Can't find this Id in database ",
+      data: result,
     });
+  }
 
-})
-
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    succcess: true,
+    message: 'Facility Updated successfully',
+    data: result,
+  });
+});
 
 const deleteFacility = catchAsync(async (req, res, next) => {
-    const facilityId = req.params?.id;
+  const facilityId = req.params?.id;
 
-    const result = await facilityServices.deleteFacilityIntoDB(facilityId);
+  const result = await facilityServices.deleteFacilityIntoDB(facilityId);
 
-
-
-
-    sendResponse(res, {
-        statusCode: httpStatus.OK,
-        succcess: true,
-        message: 'Facility Deleted successfully',
-        data: result,
-    });
-
-})
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    succcess: true,
+    message: 'Facility Deleted successfully',
+    data: result,
+  });
+});
 
 export const facilityController = {
-    getFacility,
-    createFacility,
-    updateFacility,
-    deleteFacility
+  getFacility,
+  createFacility,
+  updateFacility,
+  deleteFacility,
 };
