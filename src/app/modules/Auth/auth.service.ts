@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import config from '../../config';
-import { USER_Role } from '../users/user.constant';
 import { TUser } from '../users/user.interface';
 import { User } from '../users/user.model';
 import { TLoginUser } from './auth.interface';
@@ -14,9 +13,6 @@ const signupDataIntoDB = async (payload: TUser): Promise<any> => {
   if (user) {
     throw new Error('User already exists');
   }
-
-  //set user role
-  payload.role = USER_Role.user;
 
   //create user
   const newUser = await User.create(payload);
@@ -58,10 +54,14 @@ const loginUserDataIntoDB = async (payload: TLoginUser) => {
       expiresIn: config.jwt_refresh_expires_in,
     },
   );
+  const userData = await User.findOne({ email: payload.email });
+
+
 
   return {
     accessToken,
     refreshToken,
+    userData,
   };
 };
 

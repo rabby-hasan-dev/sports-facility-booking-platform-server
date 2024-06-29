@@ -7,7 +7,7 @@ import { bookingServices } from './booking.service';
 const getAllBookings = catchAsync(async (req, res, next) => {
   const result = await bookingServices.getAllBookingsIntoDB();
 
-  if (!result || result.length === 0) {
+  if (result.length === 0) {
     sendResponse(res, {
       statusCode: httpStatus.NOT_FOUND,
       succcess: false,
@@ -29,7 +29,7 @@ const getUserBookings = catchAsync(async (req, res, next) => {
   const user = req.user;
   const result = await bookingServices.getUserBookingsIntoDB(user);
 
-  if (!result || result.length === 0) {
+  if (result.length === 0) {
     sendResponse(res, {
       statusCode: httpStatus.NOT_FOUND,
       succcess: false,

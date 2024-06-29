@@ -11,7 +11,7 @@ const signup = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     succcess: true,
-    message: 'User SignUp in successfully!',
+    message: 'User registered successfully!',
     data: result,
   });
 });
@@ -19,9 +19,11 @@ const signup = catchAsync(async (req, res) => {
 // USER LOGIN
 
 const login = catchAsync(async (req, res) => {
-  const { accessToken, refreshToken } = await AuthServices.loginUserDataIntoDB(
+  const { accessToken, refreshToken, userData } = await AuthServices.loginUserDataIntoDB(
     req.body,
   );
+
+
 
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
@@ -32,9 +34,8 @@ const login = catchAsync(async (req, res) => {
     statusCode: httpStatus.OK,
     succcess: true,
     message: 'User logged in successfully!',
-    data: {
-      accessToken,
-    },
+    token: accessToken,
+    data: userData,
   });
 });
 

@@ -6,7 +6,7 @@ import { facilityServices } from './facility.service';
 const getFacility = catchAsync(async (req, res, next) => {
   const result = await facilityServices.getFacilityIntoDB();
 
-  if (!result || result.length === 0) {
+  if (result.length === 0) {
     sendResponse(res, {
       statusCode: httpStatus.NOT_FOUND,
       succcess: false,
@@ -65,6 +65,16 @@ const deleteFacility = catchAsync(async (req, res, next) => {
   const facilityId = req.params?.id;
 
   const result = await facilityServices.deleteFacilityIntoDB(facilityId);
+
+  if (result == null) {
+    sendResponse(res, {
+      statusCode: httpStatus.NOT_FOUND,
+      succcess: false,
+      message: "No Data Found ",
+      data: result,
+    });
+  }
+
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
