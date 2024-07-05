@@ -24,13 +24,13 @@ const signup = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0,
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         succcess: true,
-        message: 'User SignUp in successfully!',
+        message: 'User registered successfully!',
         data: result,
     });
 }));
 // USER LOGIN
 const login = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const { accessToken, refreshToken } = yield auth_service_1.AuthServices.loginUserDataIntoDB(req.body);
+    const { accessToken, refreshToken, userData } = yield auth_service_1.AuthServices.loginUserDataIntoDB(req.body);
     res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
         secure: config_1.default.node_env === 'production',
@@ -39,9 +39,8 @@ const login = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, 
         statusCode: http_status_1.default.OK,
         succcess: true,
         message: 'User logged in successfully!',
-        data: {
-            accessToken,
-        },
+        token: accessToken,
+        data: userData,
     });
 }));
 exports.authControllers = {

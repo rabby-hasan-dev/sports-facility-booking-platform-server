@@ -20,7 +20,7 @@ const booking_service_1 = require("./booking.service");
 //   RETRIVE ALL BOOKING
 const getAllBookings = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield booking_service_1.bookingServices.getAllBookingsIntoDB();
-    if (!result || result.length === 0) {
+    if (result.length === 0) {
         (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.NOT_FOUND,
             succcess: false,
@@ -39,7 +39,7 @@ const getAllBookings = (0, catchAsync_1.default)((req, res, next) => __awaiter(v
 const getUserBookings = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const user = req.user;
     const result = yield booking_service_1.bookingServices.getUserBookingsIntoDB(user);
-    if (!result || result.length === 0) {
+    if (result.length === 0) {
         (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.NOT_FOUND,
             succcess: false,

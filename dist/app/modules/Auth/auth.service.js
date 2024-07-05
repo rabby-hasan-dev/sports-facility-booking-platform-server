@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthServices = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const config_1 = __importDefault(require("../../config"));
-const user_constant_1 = require("../users/user.constant");
 const user_model_1 = require("../users/user.model");
 const auth_utils_1 = require("./auth.utils");
 //  CHECK EXISTS USER AND SAVE NEW USER DATA INTO DATABASE
@@ -25,8 +24,6 @@ const signupDataIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function
     if (user) {
         throw new Error('User already exists');
     }
-    //set user role
-    payload.role = user_constant_1.USER_Role.user;
     //create user
     const newUser = yield user_model_1.User.create(payload);
     return newUser;
@@ -51,9 +48,11 @@ const loginUserDataIntoDB = (payload) => __awaiter(void 0, void 0, void 0, funct
     const refreshToken = jsonwebtoken_1.default.sign(jwtPayload, config_1.default.jwt_refresh_secret, {
         expiresIn: config_1.default.jwt_refresh_expires_in,
     });
+    const userData = yield user_model_1.User.findOne({ email: payload.email });
     return {
         accessToken,
         refreshToken,
+        userData,
     };
 });
 exports.AuthServices = {

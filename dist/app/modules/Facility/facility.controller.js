@@ -19,7 +19,7 @@ const sendResponse_1 = __importDefault(require("../../utilis/sendResponse"));
 const facility_service_1 = require("./facility.service");
 const getFacility = (0, catchAsync_1.default)((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield facility_service_1.facilityServices.getFacilityIntoDB();
-    if (!result || result.length === 0) {
+    if (result.length === 0) {
         (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.NOT_FOUND,
             succcess: false,
@@ -68,6 +68,14 @@ const deleteFacility = (0, catchAsync_1.default)((req, res, next) => __awaiter(v
     var _b;
     const facilityId = (_b = req.params) === null || _b === void 0 ? void 0 : _b.id;
     const result = yield facility_service_1.facilityServices.deleteFacilityIntoDB(facilityId);
+    if (result == null) {
+        (0, sendResponse_1.default)(res, {
+            statusCode: http_status_1.default.NOT_FOUND,
+            succcess: false,
+            message: "No Data Found ",
+            data: result,
+        });
+    }
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         succcess: true,

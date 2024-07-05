@@ -9,7 +9,8 @@ import catchAsync from '../utilis/catchAsync';
 
 export const auth = (...requiredRoles: (keyof typeof USER_Role)[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const accessToken = req.headers.authorization;
+    const accessToken = req.headers['authorization']?.split(' ')[1];
+
 
     if (!accessToken) {
       throw new AppError(
