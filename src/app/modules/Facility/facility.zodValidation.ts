@@ -8,6 +8,7 @@ export const FacilitySchemaValidation = z.object({
       .number({ invalid_type_error: 'Price must be number value' })
       .min(0, 'Price per hour must be non-negative'),
     location: z.string({ invalid_type_error: 'Location is required' }),
+    image: z.string({ invalid_type_error: 'Image is required' }),
   }),
 });
 
@@ -17,5 +18,6 @@ export const updateFacilitySchemaValidation = z.object({
     description: z.string().optional(),
     pricePerHour: z.number().optional(),
     location: z.string().optional(),
+    image: z.string().optional(),
   }),
 });

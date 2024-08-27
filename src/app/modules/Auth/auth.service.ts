@@ -3,7 +3,9 @@ import config from '../../config';
 import { TUser } from '../users/user.interface';
 import { User } from '../users/user.model';
 import { TLoginUser } from './auth.interface';
-import { isPasswordMatched } from './auth.utils';
+import { createToken, isPasswordMatched, verifyToken } from './auth.utils';
+import AppError from '../../error/AppError';
+import httpStatus from 'http-status';
 
 //  CHECK EXISTS USER AND SAVE NEW USER DATA INTO DATABASE
 const signupDataIntoDB = async (payload: TUser): Promise<any> => {
@@ -65,7 +67,47 @@ const loginUserDataIntoDB = async (payload: TLoginUser) => {
   };
 };
 
+const refreshToken = async (token: string) => {
+  // checking if the given token is valid
+
+  let decoded;
+ try{
+  decoded = verifyToken(token, config.jwt_refresh_secret as string);
+ }catch(err){
+
+   throw new AppError(httpStatus.UNAUTHORIZED,'Invalid Refressh Token')
+ }
+
+  const { email, } = decoded;
+
+  // checking if the user is exist
+  const user = await User.findOne({email});
+  console.log(user);
+
+  if (!user) {
+    throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
+  }
+
+
+  const jwtPayload = {
+    email: user.email,
+    role: user.role,
+  };
+
+  const accessToken = createToken(
+    jwtPayload,
+    config.jwt_access_secret as string,
+    config.jwt_access_expires_in as string,
+  );
+
+  return {
+    accessToken,
+  };
+};
+
+
 export const AuthServices = {
   signupDataIntoDB,
   loginUserDataIntoDB,
+  refreshToken
 };

@@ -3,6 +3,7 @@ import express, { Application, Request, Response } from 'express';
 import globalErrorHandler from './app/middleware/globalErrorHandler';
 import notFoundRoute from './app/middleware/notFound';
 import router from './app/routes';
+import cookieParser from 'cookie-parser';
 
 const app: Application = express();
 
@@ -11,7 +12,8 @@ app.use(express.json());
 
 // middleware
 
-app.use(cors());
+app.use(cors({ origin:['http://localhost:5173'],credentials:true}));
+app.use(cookieParser())
 
 //  APPLICATION ROUTEs
 app.use('/api', router);
