@@ -6,6 +6,8 @@ import { bookingCheckerServices } from './bookingChecker.service';
 const bookingChecker = catchAsync(async (req, res, next) => {
   const query = req.query;
 
+
+
   const result = await bookingCheckerServices.bookingCheckFromDB(query);
 
   sendResponse(res, {
