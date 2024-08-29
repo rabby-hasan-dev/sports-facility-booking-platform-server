@@ -1,6 +1,6 @@
 import { TBooking } from './booking.interface';
 
-export const calculatePayableAmount = (
+export const calculatePayableAmount =async (
   pricePerHour: number,
   payload: TBooking,
 ) => {
@@ -13,6 +13,7 @@ export const calculatePayableAmount = (
     (Number(payload?.endTime.split(':')[1]) * 1) / 60;
 
   const bookingDuaration = endTime - startTime;
+
   const calculatePayableAmount = bookingDuaration * Number(pricePerHour);
 
   return calculatePayableAmount;

@@ -26,7 +26,6 @@ const bookingCheckFromDB = async (query: Record<string, unknown>) => {
   const availableSlots = findAvailableTime(result);
 
   if(!availableSlots[0]){
-    console.log('availabele time', availableSlots);
     throw new Error("Sorry! There is no available time  in this  facility on this date. Please! Booking others day or facility");
 
   }

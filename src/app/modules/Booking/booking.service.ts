@@ -5,6 +5,10 @@ import { IsBooked_Status } from './booking.constant';
 import { TBooking } from './booking.interface';
 import { Booking } from './booking.model';
 import { calculatePayableAmount } from './utils';
+import mongoose from 'mongoose';
+import AppError from '../../error/AppError';
+import httpStatus from 'http-status';
+import { error } from 'console';
 
 // RETRIVE ALL BOOKINGS FROM DATABASE
 
@@ -38,18 +42,45 @@ const createdBookingIntoDB = async (user: JwtPayload, payload: TBooking) => {
   const userExists = await User.findOne({ email: user?.email });
   const findFacility = await Facility.findById(payload?.facility);
 
-  if (userExists && findFacility) {
+
+  if (userExists) {
     // User Id set
     booking.user = userExists._id;
-    // PAYBALE AMOUNT HANDLER
-    const pricePerHour = Number(findFacility?.pricePerHour);
-    booking.payableAmount = calculatePayableAmount(pricePerHour, payload);
+
   } else {
-    throw new Error('Sorry! User or Payable amount missing!');
+    throw new Error('Sorry! User  missing!');
+  }
+
+  if (!findFacility) {
+    throw new Error('Facility  not exist!');
+  }
+
+  const pricePerHour = Number(findFacility?.pricePerHour);
+
+
+  if (!pricePerHour || isNaN(pricePerHour) || !payload) {
+    throw new Error('Invalid payload or price per hour');
+  }
+
+
+  try {
+    const payableAmount = await calculatePayableAmount(pricePerHour, payload);
+    if (!payableAmount) {
+      throw new Error('calculate Payable Amount Failed');
+    }
+    booking.payableAmount = payableAmount;
+
+  } catch (error) {
+    console.error("Error in calculatePayableAmount:", error);
+    throw new Error('calculate Payable Amount Failed');
   }
 
   const result = await Booking.create(booking);
+
+
+
   return result;
+
 };
 
 //  CANCEL BOOKINGS  FROM DATABASE
