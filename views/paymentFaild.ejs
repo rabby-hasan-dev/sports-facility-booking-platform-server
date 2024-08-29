@@ -5,15 +5,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Failed</title>
-    <link rel="stylesheet" href="/public/styles.css">
-  
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .failed-title {
+            color: red;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 80%;
+            height: 100px;
+        }
+
+        p {
+            font-size: 20px;
+        }
+
+        .btn-container {
+            margin-top: 40px;
+        }
+
+        .home-btn {
+            padding: 8px;
+            background-color: #add8e6;
+            text-decoration: none;
+            margin-top: 10px;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+    </style>
+
 </head>
+
 <body>
     <div class="container">
         <h1 class="failed-title">Payment Faild</h1>
         <img src="https://www.aamarpay.com/images/logo/aamarpay_logo.png" alt="Logo" class="logo">
         <p>For more information contact us</p>
-        <a href="http://localhost:5173">Go Home</a>
+        <div class="btn-container">
+            <a class="home-btn" href="http://localhost:5173">Go Home</a>
+        </div>
     </div>
 </body>
+
 </html>

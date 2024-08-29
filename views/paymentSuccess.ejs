@@ -5,8 +5,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment Success</title>
-    <link rel="stylesheet" href="/public/styles.css">
+    <!-- <link rel="stylesheet" href="/public/styles.css"> -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .success-title {
+            color: green;
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 80%;
+            height: 100px;
+        }
+
+        .history-title {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        .transaction-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .transaction-table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        .transaction-table .label {
+            background-color: #add8e6;
+            font-weight: bold;
+        }
+
+        .btn-container{
+            margin-top: 40px;
+        }
+
+        .home-btn {
+            padding: 8px;
+            background-color: #add8e6;
+            text-decoration: none;
+            margin-top: 10px;
+            font-weight: 500;
+            border-radius: 8px;
+        }
+    </style>
 </head>
+
+
 <body>
     <div class="container">
         <h1 class="success-title">Payment Success</h1>
@@ -15,35 +75,53 @@
         <table class="transaction-table">
             <tr>
                 <td class="label">Merchant Transaction Id:</td>
-                <td> <%= transactionId %> </td>
+                <td>
+                    <%= transactionId %>
+                </td>
             </tr>
             <tr>
                 <td class="label">Invoice No</td>
-                <td> <%= invoiceNo %> </td>
+                <td>
+                    <%= invoiceNo %>
+                </td>
             </tr>
             <tr>
                 <td class="label">Payment Status</td>
-                <td> <%= paymentStatus %> </td>
+                <td>
+                    <%= paymentStatus %>
+                </td>
             </tr>
             <tr>
                 <td class="label">Transaction Amount</td>
-                <td><%= amount %></td>
+                <td>
+                    <%= amount %>
+                </td>
             </tr>
             <tr>
                 <td class="label">Amount Currency</td>
-                <td><%= currency %></td>
+                <td>
+                    <%= currency %>
+                </td>
             </tr>
             <tr>
                 <td class="label">Payment Type</td>
-                <td><%= payment_type %></td>
+                <td>
+                    <%= payment_type %>
+                </td>
             </tr>
             <tr>
                 <td class="label">Pay Time</td>
-                <td><%= payTime %></td>
+                <td>
+                    <%= payTime %>
+                </td>
             </tr>
         </table>
-       
-        <a href="http://localhost:5173">Go Home</a>
+
+        <div class="btn-container">
+            <a class="home-btn" href="http://localhost:5173">Go Home</a>
+        </div>
+
     </div>
 </body>
+
 </html>
