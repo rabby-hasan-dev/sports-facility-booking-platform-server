@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Success</title>
+    <link rel="stylesheet" href="/public/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="success-title">Payment Success</h1>
+        <img src="https://www.aamarpay.com/images/logo/aamarpay_logo.png" alt="Logo" class="logo">
+        <h2 class="history-title">Transaction History</h2>
+        <table class="transaction-table">
+            <tr>
+                <td class="label">Merchant Transaction Id:</td>
+                <td> <%= transactionId %> </td>
+            </tr>
+            <tr>
+                <td class="label">Invoice No</td>
+                <td> <%= invoiceNo %> </td>
+            </tr>
+            <tr>
+                <td class="label">Payment Status</td>
+                <td> <%= paymentStatus %> </td>
+            </tr>
+            <tr>
+                <td class="label">Transaction Amount</td>
+                <td><%= amount %></td>
+            </tr>
+            <tr>
+                <td class="label">Amount Currency</td>
+                <td><%= currency %></td>
+            </tr>
+            <tr>
+                <td class="label">Payment Type</td>
+                <td><%= payment_type %></td>
+            </tr>
+            <tr>
+                <td class="label">Pay Time</td>
+                <td><%= payTime %></td>
+            </tr>
+        </table>
+       
+        <a href="http://localhost:5173">Go Home</a>
+    </div>
+</body>
+</html>

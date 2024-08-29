@@ -5,10 +5,7 @@ import { IsBooked_Status } from './booking.constant';
 import { TBooking } from './booking.interface';
 import { Booking } from './booking.model';
 import { calculatePayableAmount } from './utils';
-import mongoose from 'mongoose';
-import AppError from '../../error/AppError';
-import httpStatus from 'http-status';
-import { error } from 'console';
+import { initialPayment } from '../payment/payment.utils';
 
 // RETRIVE ALL BOOKINGS FROM DATABASE
 
@@ -41,7 +38,7 @@ const createdBookingIntoDB = async (user: JwtPayload, payload: TBooking) => {
 
   const userExists = await User.findOne({ email: user?.email });
   const findFacility = await Facility.findById(payload?.facility);
-
+  
 
   if (userExists) {
     // User Id set
@@ -75,11 +72,27 @@ const createdBookingIntoDB = async (user: JwtPayload, payload: TBooking) => {
     throw new Error('calculate Payable Amount Failed');
   }
 
-  const result = await Booking.create(booking);
 
+  const transactionId = `TXN-${Date.now()}`;
 
+  booking.transactionId = transactionId;
 
-  return result;
+  const paymentData = {
+    transactionId,
+    totalPrice: booking.payableAmount,
+    custormerName: userExists.name,
+    customerEmail: userExists.email,
+    customerPhone: userExists.phone,
+    customerAddress: userExists.address
+  }
+
+    await Booking.create(booking);
+  
+  //  payment session
+  
+  const paymentSession = await initialPayment(paymentData);
+  return paymentSession;
+
 
 };
 

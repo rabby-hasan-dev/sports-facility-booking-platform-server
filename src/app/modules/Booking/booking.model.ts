@@ -1,5 +1,5 @@
 import { Schema, model } from 'mongoose';
-import { IsBooked_Status } from './booking.constant';
+import { IsBooked_Status, Payment_Status } from './booking.constant';
 import { TBooking } from './booking.interface';
 
 const BookingSchema = new Schema<TBooking>(
@@ -37,6 +37,16 @@ const BookingSchema = new Schema<TBooking>(
       enum: Object.keys(IsBooked_Status),
       default: IsBooked_Status.confirmed,
     },
+    paymentStatus: {
+      type: String,
+      enum:Object.keys(Payment_Status),
+      default:Payment_Status.pending
+    },
+    transactionId: {
+      type: String,
+      required: true
+    },
+
   },
   {
     versionKey: false,

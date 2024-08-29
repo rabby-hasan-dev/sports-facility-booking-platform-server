@@ -3,6 +3,7 @@ import { authRouter } from '../modules/Auth/auth.route';
 import { bookingRouter } from '../modules/Booking/booking.route';
 import { bookingCheckerRouter } from '../modules/BookingChecker/bookingChecker.route';
 import { facilityRouter } from '../modules/Facility/facility.route';
+import { paymentRoutes } from '../modules/payment/payment.route';
 
 const router = Router();
 
@@ -22,6 +23,10 @@ const moduleRoutes = [
   {
     path: '/check-availability',
     route: bookingCheckerRouter,
+  },
+  {
+    path:'/payments',
+    route: paymentRoutes,
   },
 ];
 
