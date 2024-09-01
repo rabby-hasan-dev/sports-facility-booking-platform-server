@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { TFacility } from './facility.interface';
+import { number } from 'zod';
 
 const FacilitySchema = new Schema<TFacility>(
   {
@@ -26,6 +27,10 @@ const FacilitySchema = new Schema<TFacility>(
     isDeleted: {
       type: Boolean,
       default: false,
+    },
+    bookingsCount: {
+      type: Number,
+      default: 0,
     },
   },
   {

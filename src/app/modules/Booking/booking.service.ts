@@ -39,7 +39,6 @@ const createdBookingIntoDB = async (user: JwtPayload, payload: TBooking) => {
   const userExists = await User.findOne({ email: user?.email });
   const findFacility = await Facility.findById(payload?.facility);
 
-
   if (userExists) {
     // User Id set
     booking.user = userExists._id;
@@ -86,10 +85,14 @@ const createdBookingIntoDB = async (user: JwtPayload, payload: TBooking) => {
     customerAddress: userExists.address
   }
 
-    await Booking.create(booking);
-  
+  const bookingCreate = await Booking.create(booking);
+
+  if (bookingCreate) {
+    await Facility.findByIdAndUpdate(payload?.facility, { $inc: { bookingsCount: 1 } }, { new: true });
+  }
+
   //  payment session
-  
+
   const paymentSession = await initialPayment(paymentData);
   return paymentSession;
 
