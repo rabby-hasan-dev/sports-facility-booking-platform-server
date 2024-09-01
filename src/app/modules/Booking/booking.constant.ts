@@ -1,7 +1,7 @@
 export const IsBooked_Status = {
   confirmed: 'confirmed',
   unconfirmed: 'unconfirmed',
-  canceled: 'canceled',
+  canceled: 'cancelled',
 } as const;
 
 export const Payment_Status = {

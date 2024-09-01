@@ -15,8 +15,10 @@ const confirmationService = async (transactionId: string, status: string) => {
         });
 
         paymentData = {
+            consumerName:verifyResponse?.cus_name,
+            email:verifyResponse?.cus_email,
+            phone:verifyResponse?.cus_phone,
             transactionId: verifyResponse?.mer_txnid,
-            invoiceNo: verifyResponse?.pg_txnid,
             amount: verifyResponse?.amount,
             currency: 'BDT',
             payment_type: verifyResponse?.payment_type,

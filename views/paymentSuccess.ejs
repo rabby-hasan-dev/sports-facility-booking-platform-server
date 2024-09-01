@@ -26,8 +26,8 @@
         }
 
         .logo {
-            width: 80%;
-            height: 100px;
+            width: 50%;
+            height: 50%;
         }
 
         .history-title {
@@ -69,22 +69,35 @@
 
 <body>
     <div class="container">
-        <h1 class="success-title">Payment Success</h1>
-        <img src="https://www.aamarpay.com/images/logo/aamarpay_logo.png" alt="Logo" class="logo">
+        <h1 class="success-title">Payment Successfull</h1>
+        <img src="https://i.ibb.co/tbqFkjc/brand-Logo.png" alt="Logo" class="logo">
         <h2 class="history-title">Transaction History</h2>
         <table class="transaction-table">
+            <tr>
+                <td class="label">Consumer Name:</td>
+                <td>
+                    <%=consumerName %>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Consumer Email</td>
+                <td>
+                    <%= email %>
+                </td>
+            </tr>
+            <tr>
+                <td class="label">Phone No</td>
+                <td>
+                    <%= phone %>
+                </td>
+            </tr>
             <tr>
                 <td class="label">Merchant Transaction Id:</td>
                 <td>
                     <%= transactionId %>
                 </td>
             </tr>
-            <tr>
-                <td class="label">Invoice No</td>
-                <td>
-                    <%= invoiceNo %>
-                </td>
-            </tr>
+            
             <tr>
                 <td class="label">Payment Status</td>
                 <td>
@@ -92,7 +105,7 @@
                 </td>
             </tr>
             <tr>
-                <td class="label">Transaction Amount</td>
+                <td class="label">Total Amount</td>
                 <td>
                     <%= amount %>
                 </td>
