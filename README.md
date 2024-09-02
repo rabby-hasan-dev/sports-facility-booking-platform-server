@@ -1,5 +1,5 @@
 
-# Sports Facility Booking Platform
+# Sports Facility Booking Platform Server
 
 
 ## Introduction:
@@ -15,6 +15,7 @@ This tasked  for developing the backend for a sports facility booking platform. 
 * User Authentication: Secure user sign-up and login.
 * Facility Management: CRUD operations for facilities.
 * Booking System: Real-time booking and availability check.
+* Payment Integration: After Bookings payments option for payment by amarpay.
 
 
 ### Uses Technology Stack:
@@ -30,6 +31,7 @@ This tasked  for developing the backend for a sports facility booking platform. 
 *   http-status
 *   jsonwebtoken
 *   zod
+*   axios
 
 ## Installation
 #### Prerequisites
@@ -97,3 +99,8 @@ Provide instructions on how to start and use the server.
 
   **11\. Cancel a Booking (User Only)**
   *   **Route**: `DELETE /api/bookings/:id`
+
+  **12\. Refresh Token**
+  *   **Route**: `POST /api/auth/refresh-token`
+  **13\. Payment Confirmation**
+  *   **Route**: `POST /api/payments/confirmation`
