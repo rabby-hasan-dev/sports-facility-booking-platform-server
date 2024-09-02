@@ -42,7 +42,6 @@ const createdBookingIntoDB = async (user: JwtPayload, payload: TBooking) => {
   if (userExists) {
     // User Id set
     booking.user = userExists._id;
-
   } else {
     throw new Error('Sorry! User  missing!');
   }
@@ -53,11 +52,9 @@ const createdBookingIntoDB = async (user: JwtPayload, payload: TBooking) => {
 
   const pricePerHour = Number(findFacility?.pricePerHour);
 
-
   if (!pricePerHour || isNaN(pricePerHour) || !payload) {
     throw new Error('Invalid payload or price per hour');
   }
-
 
   try {
     const payableAmount = await calculatePayableAmount(pricePerHour, payload);
@@ -65,12 +62,10 @@ const createdBookingIntoDB = async (user: JwtPayload, payload: TBooking) => {
       throw new Error('calculate Payable Amount Failed');
     }
     booking.payableAmount = payableAmount;
-
   } catch (error) {
-    console.error("Error in calculatePayableAmount:", error);
+    console.error('Error in calculatePayableAmount:', error);
     throw new Error('calculate Payable Amount Failed');
   }
-
 
   const transactionId = `TXN-${Date.now()}`;
 
@@ -82,21 +77,23 @@ const createdBookingIntoDB = async (user: JwtPayload, payload: TBooking) => {
     custormerName: userExists.name,
     customerEmail: userExists.email,
     customerPhone: userExists.phone,
-    customerAddress: userExists.address
-  }
+    customerAddress: userExists.address,
+  };
 
   const bookingCreate = await Booking.create(booking);
 
   if (bookingCreate) {
-    await Facility.findByIdAndUpdate(payload?.facility, { $inc: { bookingsCount: 1 } }, { new: true });
+    await Facility.findByIdAndUpdate(
+      payload?.facility,
+      { $inc: { bookingsCount: 1 } },
+      { new: true },
+    );
   }
 
   //  payment session
 
   const paymentSession = await initialPayment(paymentData);
   return paymentSession;
-
-
 };
 
 //  CANCEL BOOKINGS  FROM DATABASE

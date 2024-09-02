@@ -25,7 +25,7 @@ const moduleRoutes = [
     route: bookingCheckerRouter,
   },
   {
-    path:'/payments',
+    path: '/payments',
     route: paymentRoutes,
   },
 ];

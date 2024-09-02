@@ -39,14 +39,13 @@ const BookingSchema = new Schema<TBooking>(
     },
     paymentStatus: {
       type: String,
-      enum:Object.keys(Payment_Status),
-      default:Payment_Status.pending
+      enum: Object.keys(Payment_Status),
+      default: Payment_Status.pending,
     },
     transactionId: {
       type: String,
-      required: true
+      required: true,
     },
-
   },
   {
     versionKey: false,

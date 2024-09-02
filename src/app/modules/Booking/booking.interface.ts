@@ -9,6 +9,6 @@ export type TBooking = {
   payableAmount?: number;
   facility?: Types.ObjectId;
   isBooked?: keyof typeof IsBooked_Status;
-  transactionId:string,
+  transactionId: string;
   paymentStatus: keyof typeof Payment_Status;
 };

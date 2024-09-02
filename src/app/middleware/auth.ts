@@ -11,7 +11,6 @@ export const auth = (...requiredRoles: (keyof typeof USER_Role)[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const accessToken = req.headers['authorization']?.split(' ')[1];
 
-
     if (!accessToken) {
       throw new AppError(
         httpStatus.UNAUTHORIZED,
@@ -19,18 +18,15 @@ export const auth = (...requiredRoles: (keyof typeof USER_Role)[]) => {
       );
     }
 
-    let  verfiedToken;
-   try{
-
-    verfiedToken = jwt.verify(
-      accessToken as string,
-      config.jwt_access_secret as string,
-    );
-
-   }catch(err){
-    throw new AppError(httpStatus.UNAUTHORIZED, 'UNAUTHORIZED');
-   }
-
+    let verfiedToken;
+    try {
+      verfiedToken = jwt.verify(
+        accessToken as string,
+        config.jwt_access_secret as string,
+      );
+    } catch (err) {
+      throw new AppError(httpStatus.UNAUTHORIZED, 'UNAUTHORIZED');
+    }
 
     const { role, email } = verfiedToken as JwtPayload;
 

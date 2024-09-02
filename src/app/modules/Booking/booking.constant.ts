@@ -9,5 +9,3 @@ export const Payment_Status = {
   paid: 'paid',
   failed: 'failed',
 } as const;
-
-

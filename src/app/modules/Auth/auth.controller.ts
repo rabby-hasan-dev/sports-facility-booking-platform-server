@@ -19,11 +19,8 @@ const signup = catchAsync(async (req, res) => {
 // USER LOGIN
 
 const login = catchAsync(async (req, res) => {
-  const { accessToken, refreshToken, userData } = await AuthServices.loginUserDataIntoDB(
-    req.body,
-  );
-
-
+  const { accessToken, refreshToken, userData } =
+    await AuthServices.loginUserDataIntoDB(req.body);
 
   res.cookie('refreshToken', refreshToken, {
     httpOnly: true,
@@ -33,12 +30,11 @@ const login = catchAsync(async (req, res) => {
   sendResponse(res, {
     statusCode: httpStatus.OK,
     succcess: true,
-    message: 'User logged in successfully!',
+    message: ` ${userData?.role} logged in successfully!`,
     token: accessToken,
     data: userData,
   });
 });
-
 
 const refreshToken = catchAsync(async (req, res) => {
   const { refreshToken } = req.cookies;
@@ -55,5 +51,5 @@ const refreshToken = catchAsync(async (req, res) => {
 export const authControllers = {
   signup,
   login,
-  refreshToken
+  refreshToken,
 };

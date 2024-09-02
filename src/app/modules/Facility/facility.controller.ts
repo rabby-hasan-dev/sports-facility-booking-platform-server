@@ -70,11 +70,10 @@ const deleteFacility = catchAsync(async (req, res, next) => {
     sendResponse(res, {
       statusCode: httpStatus.NOT_FOUND,
       succcess: false,
-      message: "No Data Found ",
+      message: 'No Data Found ',
       data: result,
     });
   }
-
 
   sendResponse(res, {
     statusCode: httpStatus.OK,

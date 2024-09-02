@@ -10,24 +10,27 @@ const bookingCheckFromDB = async (query: Record<string, unknown>) => {
   const requestedDate = query.date || currentDate;
   const facilityId = query.facility;
 
-    const facilityChecker= await Facility.findById(facilityId);
+  const facilityChecker = await Facility.findById(facilityId);
 
-    if (!facilityChecker) {
-      throw new Error("can't find facility");
-    }
-  
+  if (!facilityChecker) {
+    throw new Error("can't find facility");
+  }
 
   const result = await Booking.find(
-    { date: requestedDate, isBooked: { $ne: IsBooked_Status.canceled } ,facility:facilityId },
+    {
+      date: requestedDate,
+      isBooked: { $ne: IsBooked_Status.canceled },
+      facility: facilityId,
+    },
     { endTime: 1, startTime: 1, _id: 0 },
   );
 
-
   const availableSlots = findAvailableTime(result);
 
-  if(!availableSlots[0]){
-    throw new Error("Sorry! There is no available time  in this  facility on this date. Please! Booking others day or facility");
-
+  if (!availableSlots[0]) {
+    throw new Error(
+      'Sorry! There is no available time  in this  facility on this date. Please! Booking others day or facility',
+    );
   }
 
   return availableSlots;

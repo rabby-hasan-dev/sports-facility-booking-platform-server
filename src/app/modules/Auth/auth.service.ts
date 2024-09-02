@@ -58,8 +58,6 @@ const loginUserDataIntoDB = async (payload: TLoginUser) => {
   );
   const userData = await User.findOne({ email: payload.email });
 
-
-
   return {
     accessToken,
     refreshToken,
@@ -71,23 +69,20 @@ const refreshToken = async (token: string) => {
   // checking if the given token is valid
 
   let decoded;
- try{
-  decoded = verifyToken(token, config.jwt_refresh_secret as string);
- }catch(err){
+  try {
+    decoded = verifyToken(token, config.jwt_refresh_secret as string);
+  } catch (err) {
+    throw new AppError(httpStatus.UNAUTHORIZED, 'Invalid Refressh Token');
+  }
 
-   throw new AppError(httpStatus.UNAUTHORIZED,'Invalid Refressh Token')
- }
-
-  const { email, } = decoded;
+  const { email } = decoded;
 
   // checking if the user is exist
-  const user = await User.findOne({email});
-
+  const user = await User.findOne({ email });
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
   }
-
 
   const jwtPayload = {
     email: user.email,
@@ -105,9 +100,8 @@ const refreshToken = async (token: string) => {
   };
 };
 
-
 export const AuthServices = {
   signupDataIntoDB,
   loginUserDataIntoDB,
-  refreshToken
+  refreshToken,
 };

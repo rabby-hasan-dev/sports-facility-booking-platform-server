@@ -1,6 +1,6 @@
 import { TBooking } from './booking.interface';
 
-export const calculatePayableAmount =async (
+export const calculatePayableAmount = async (
   pricePerHour: number,
   payload: TBooking,
 ) => {

@@ -7,8 +7,6 @@ const loginValidationSchema = z.object({
   }),
 });
 
-
-
 const refreshTokenValidationSchema = z.object({
   cookies: z.object({
     refreshToken: z.string({
@@ -17,13 +15,7 @@ const refreshTokenValidationSchema = z.object({
   }),
 });
 
-
-
-
-
 export const AuthValidation = {
   loginValidationSchema,
   refreshTokenValidationSchema,
- 
-  
 };
