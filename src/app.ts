@@ -4,16 +4,17 @@ import globalErrorHandler from './app/middleware/globalErrorHandler';
 import notFoundRoute from './app/middleware/notFound';
 import router from './app/routes';
 import cookieParser from 'cookie-parser';
-import path from 'path';
+import config from './app/config';
 
 const app: Application = express();
 
 //  parser
 app.use(express.json());
+app.set("view engine", "ejs");
 
 // middleware
 
-app.use(cors({ origin: ['http://localhost:5173'], credentials: true }));
+app.use(cors({ origin: [`${config.client_url_link}`], credentials: true }));
 
 app.use(cookieParser());
 

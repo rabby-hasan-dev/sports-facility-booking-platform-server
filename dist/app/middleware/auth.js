@@ -26,7 +26,13 @@ const auth = (...requiredRoles) => {
         if (!accessToken) {
             throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, 'You have no access to this route');
         }
-        const verfiedToken = jsonwebtoken_1.default.verify(accessToken, config_1.default.jwt_access_secret);
+        let verfiedToken;
+        try {
+            verfiedToken = jsonwebtoken_1.default.verify(accessToken, config_1.default.jwt_access_secret);
+        }
+        catch (err) {
+            throw new AppError_1.default(http_status_1.default.UNAUTHORIZED, 'UNAUTHORIZED');
+        }
         const { role, email } = verfiedToken;
         const user = yield user_model_1.User.findOne({ email });
         if (!user) {

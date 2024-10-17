@@ -72,7 +72,7 @@ const deleteFacility = (0, catchAsync_1.default)((req, res, next) => __awaiter(v
         (0, sendResponse_1.default)(res, {
             statusCode: http_status_1.default.NOT_FOUND,
             succcess: false,
-            message: "No Data Found ",
+            message: 'No Data Found ',
             data: result,
         });
     }

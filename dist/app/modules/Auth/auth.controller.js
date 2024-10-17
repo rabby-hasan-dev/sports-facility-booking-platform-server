@@ -38,12 +38,23 @@ const login = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, 
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,
         succcess: true,
-        message: 'User logged in successfully!',
+        message: ` ${userData === null || userData === void 0 ? void 0 : userData.role} logged in successfully!`,
         token: accessToken,
         data: userData,
+    });
+}));
+const refreshToken = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { refreshToken } = req.cookies;
+    const result = yield auth_service_1.AuthServices.refreshToken(refreshToken);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        succcess: true,
+        message: 'Access token is retrieved succesfully!',
+        data: result,
     });
 }));
 exports.authControllers = {
     signup,
     login,
+    refreshToken,
 };

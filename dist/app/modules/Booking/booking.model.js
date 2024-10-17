@@ -35,6 +35,15 @@ const BookingSchema = new mongoose_1.Schema({
         enum: Object.keys(booking_constant_1.IsBooked_Status),
         default: booking_constant_1.IsBooked_Status.confirmed,
     },
+    paymentStatus: {
+        type: String,
+        enum: Object.keys(booking_constant_1.Payment_Status),
+        default: booking_constant_1.Payment_Status.pending,
+    },
+    transactionId: {
+        type: String,
+        required: true,
+    },
 }, {
     versionKey: false,
 });

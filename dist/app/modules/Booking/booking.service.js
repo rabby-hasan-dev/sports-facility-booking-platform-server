@@ -15,6 +15,7 @@ const user_model_1 = require("../users/user.model");
 const booking_constant_1 = require("./booking.constant");
 const booking_model_1 = require("./booking.model");
 const utils_1 = require("./utils");
+const payment_utils_1 = require("../payment/payment.utils");
 // RETRIVE ALL BOOKINGS FROM DATABASE
 const getAllBookingsIntoDB = () => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield booking_model_1.Booking.find({
@@ -40,18 +41,48 @@ const createdBookingIntoDB = (user, payload) => __awaiter(void 0, void 0, void 0
     let booking = Object.assign({}, payload);
     const userExists = yield user_model_1.User.findOne({ email: user === null || user === void 0 ? void 0 : user.email });
     const findFacility = yield facility_model_1.Facility.findById(payload === null || payload === void 0 ? void 0 : payload.facility);
-    if (userExists && findFacility) {
+    if (userExists) {
         // User Id set
         booking.user = userExists._id;
-        // PAYBALE AMOUNT HANDLER
-        const pricePerHour = Number(findFacility === null || findFacility === void 0 ? void 0 : findFacility.pricePerHour);
-        booking.payableAmount = (0, utils_1.calculatePayableAmount)(pricePerHour, payload);
     }
     else {
-        throw new Error('Sorry! User or Payable amount missing!');
+        throw new Error('Sorry! User  missing!');
     }
-    const result = yield booking_model_1.Booking.create(booking);
-    return result;
+    if (!findFacility) {
+        throw new Error('Facility  not exist!');
+    }
+    const pricePerHour = Number(findFacility === null || findFacility === void 0 ? void 0 : findFacility.pricePerHour);
+    if (!pricePerHour || isNaN(pricePerHour) || !payload) {
+        throw new Error('Invalid payload or price per hour');
+    }
+    try {
+        const payableAmount = yield (0, utils_1.calculatePayableAmount)(pricePerHour, payload);
+        if (!payableAmount) {
+            throw new Error('calculate Payable Amount Failed');
+        }
+        booking.payableAmount = payableAmount;
+    }
+    catch (error) {
+        console.error('Error in calculatePayableAmount:', error);
+        throw new Error('calculate Payable Amount Failed');
+    }
+    const transactionId = `TXN-${Date.now()}`;
+    booking.transactionId = transactionId;
+    const paymentData = {
+        transactionId,
+        totalPrice: booking.payableAmount,
+        custormerName: userExists.name,
+        customerEmail: userExists.email,
+        customerPhone: userExists.phone,
+        customerAddress: userExists.address,
+    };
+    const bookingCreate = yield booking_model_1.Booking.create(booking);
+    if (bookingCreate) {
+        yield facility_model_1.Facility.findByIdAndUpdate(payload === null || payload === void 0 ? void 0 : payload.facility, { $inc: { bookingsCount: 1 } }, { new: true });
+    }
+    //  payment session
+    const paymentSession = yield (0, payment_utils_1.initialPayment)(paymentData);
+    return paymentSession;
 });
 //  CANCEL BOOKINGS  FROM DATABASE
 const cancelBookingIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {

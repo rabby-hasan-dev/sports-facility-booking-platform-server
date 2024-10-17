@@ -15,4 +15,8 @@ export default {
   signature_key: process.env.SIGNATURE_KEY,
   payment_url: process.env.PAYMENT_URL,
   payment_verify_url: process.env.PAYMENT_VERIFY_URL,
+  client_url_link: process.env.CLIENT_URL_LINK
+
+
+
 };

@@ -10,6 +10,7 @@ exports.FacilitySchemaValidation = zod_1.z.object({
             .number({ invalid_type_error: 'Price must be number value' })
             .min(0, 'Price per hour must be non-negative'),
         location: zod_1.z.string({ invalid_type_error: 'Location is required' }),
+        image: zod_1.z.string({ invalid_type_error: 'Image is required' }),
     }),
 });
 exports.updateFacilitySchemaValidation = zod_1.z.object({
@@ -18,5 +19,6 @@ exports.updateFacilitySchemaValidation = zod_1.z.object({
         description: zod_1.z.string().optional(),
         pricePerHour: zod_1.z.number().optional(),
         location: zod_1.z.string().optional(),
+        image: zod_1.z.string().optional(),
     }),
 });
